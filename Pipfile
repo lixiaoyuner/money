@@ -14,6 +14,7 @@ pandas = "*"
 requests = "*"
 bs4 = "*"
 tqdm = "*"
+django-debug-toolbar = "*"
 
 [requires]
 python_version = "3.6"

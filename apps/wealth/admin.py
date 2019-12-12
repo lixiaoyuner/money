@@ -1,7 +1,13 @@
 from django.contrib import admin
+from django.core.paginator import Paginator
 
 from .models import Stock, DayK
 # Register your models here.
+
+# class LargeTablePaginator(Paginator):
+#     def _get_count(self):
+#         return 10000000
+#     count = property(_get_count)
 
 @admin.register(Stock)
 class StockAdmin(admin.ModelAdmin):
@@ -12,7 +18,14 @@ class StockAdmin(admin.ModelAdmin):
 
 @admin.register(DayK)
 class DayKAdmin(admin.ModelAdmin):
-    list_display = ('stock', 'trade_date', 'open', 'high', 'low', 'close', 'pre_close', 'change', 'pct_chg', 'vol', 'amount')
+    show_full_result_count=False
+    # paginator = LargeTablePaginator
+    list_display = ('stock_info', 'trade_date', 'open', 'high', 'low', 'close', 'pre_close', 'change', 'pct_chg', 'vol', 'amount')
     list_display_links = ('trade_date',)
-    # list_filter = ('stock', 'trade_date',)
-    search_fields = ('stock', 'trade_date', 'pct_chg',)
+    # list_select_related = ('stock',)
+    search_fields = ('trade_date', 'pct_chg',)
+    def stock_info(self, obj):
+        return u'%s | %s' % (obj.stock.name, obj.stock.ts_code)
+    stock_info.short_description = '对应股票'
+
+    

@@ -23,7 +23,7 @@ sys.path.insert(0,os.path.join(BASE_DIR,'apps'))
 
 
 ALLOWED_HOSTS = ['*',]
-
+INTERNAL_IPS = []
 
 # Application definition
 
@@ -118,3 +118,12 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 from .security_settings import *
+
+if DEBUG:
+    # django debug toolbar
+    INSTALLED_APPS.append('debug_toolbar')
+    MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
+    DEBUG_TOOLBAR_CONFIG = {
+        # 'SHOW_COLLAPSED': True,
+    }
+    INTERNAL_IPS += ['159.226.91.152', '127.0.0.1'] # 通过这些IP地址访问时，页面才会出现django debug toolbar面板
